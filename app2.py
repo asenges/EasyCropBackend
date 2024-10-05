@@ -58,7 +58,7 @@ def add_location():
             loc_lat,                     # latitude
             loc_long,                    # longitude
             loc_wind_degree,             # wind_direction
-            weather['temperature'],      # temperature_2m
+            weather['temperature'],       # temperature_2m
             loc_max_temp,                # max_temperature_24h
             loc_min_temp,                # min_temperature_24h
             loc_pression,                # pressure_msl
@@ -72,36 +72,6 @@ def add_location():
         connection.commit()
 
         return jsonify({"message": "Weather data added successfully!"}), 201
-
-    except Error as e:
-        return jsonify({"error": str(e)}), 500
-
-    except Exception as e:
-        return jsonify({"error": "An unexpected error occurred: " + str(e)}), 500
-
-    finally:
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
-
-
-@app.route('/get_plant_data', methods=['GET'])
-def get_plant_data():
-    try:
-        # Create a database connection
-        connection = create_connection()
-        cursor = connection.cursor(dictionary=True)  # Use dictionary cursor for easier JSON conversion
-
-        # Prepare and execute the SQL select statement
-        query = "SELECT * FROM plants"
-        cursor.execute(query)
-
-        # Fetch all rows from the result
-        rows = cursor.fetchall()
-
-        # Convert rows to a JSON-friendly format
-        return jsonify(rows), 200
 
     except Error as e:
         return jsonify({"error": str(e)}), 500
